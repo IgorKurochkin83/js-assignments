@@ -206,21 +206,21 @@ function getRectangleString(width, height) {
     
     if (width > 0 && height > 0) {
         rectangle = '┌';
-        for (i = 1; i < (width - 1); i++) {
+        for (let i = 1; i < (width - 1); i++) {
             rectangle += '-';
         }
         rectangle += '┐\n';
 
-        for (i = 1; i < height - 1; i++) {
+        for (let i = 1; i < height - 1; i++) {
             rectangle += '│';
-            for (i = 1; i < (width - 1); i++) {
+            for (let i = 1; i < (width - 1); i++) {
                 rectangle += '-';
             }
             rectangle += '│\n';
         }
         
         rectangle = '└';
-        for (i = 1; i < (width - 1); i++) {
+        for (let i = 1; i < (width - 1); i++) {
             rectangle += '-';
         }
         rectangle += '┘\n';
