@@ -272,9 +272,13 @@ function encodeToRot13(str) {
  */
 function isString(value) {
     type = false;
-    if ()
+    if (typeof value === "string") {
+        type = true;
+    } else if (typeof value === "object" && value instanceof String) {
+        type = true;
+    }
     
-    return typeof();
+    return type;
 }
 
 
@@ -303,7 +307,13 @@ function isString(value) {
  *   'K♠' => 51
  */
 function getCardId(value) {
-    throw new Error('Not implemented');
+    let inittialDeck = ['A♣','2♣','3♣','4♣','5♣','6♣','7♣','8♣','9♣','10♣','J♣','Q♣','K♣',
+                        'A♦','2♦','3♦','4♦','5♦','6♦','7♦','8♦','9♦','10♦','J♦','Q♦','K♦',
+                        'A♥','2♥','3♥','4♥','5♥','6♥','7♥','8♥','9♥','10♥','J♥','Q♥','K♥',
+                        'A♠','2♠','3♠','4♠','5♠','6♠','7♠','8♠','9♠','10♠','J♠','Q♠','K♠'
+    ];
+
+    return inittialDeck.indexOf(value);  
 }
 
 
