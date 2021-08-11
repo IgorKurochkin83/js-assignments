@@ -131,7 +131,7 @@ function repeatString(value, count) {
  *   'ABABAB','BA' => 'ABAB'
  */
 function removeFirstOccurrences(str, value) {
-    throw new Error('Not implemented');
+    return str.replace(value, '');
 }
 
 /**
@@ -146,7 +146,7 @@ function removeFirstOccurrences(str, value) {
  *   '<a>' => 'a'
  */
 function unbracketTag(str) {
-    throw new Error('Not implemented');
+    return str.slice(1, -1);
 }
 
 
@@ -161,7 +161,7 @@ function unbracketTag(str) {
  *  'abcdefghijklmnopqrstuvwxyz' => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
  */
 function convertToUpperCase(str) {
-    throw new Error('Not implemented');
+    return str.toUpperCase();
 }
 
 /**
@@ -175,7 +175,7 @@ function convertToUpperCase(str) {
  *   'info@gmail.com' => ['info@gmail.com']
  */
 function extractEmails(str) {
-    throw new Error('Not implemented');
+    return str.split(';');
 }
 
 /**
@@ -202,7 +202,31 @@ function extractEmails(str) {
  *
  */
 function getRectangleString(width, height) {
-    throw new Error('Not implemented');
+    let rectangle = '';
+    
+    if (width > 0 && height > 0) {
+        rectangle = '┌';
+        for (i = 1; i < (width - 1); i++) {
+            rectangle += '-';
+        }
+        rectangle += '┐\n';
+
+        for (i = 1; i < height - 1; i++) {
+            rectangle += '│';
+            for (i = 1; i < (width - 1); i++) {
+                rectangle += '-';
+            }
+            rectangle += '│\n';
+        }
+        
+        rectangle = '└';
+        for (i = 1; i < (width - 1); i++) {
+            rectangle += '-';
+        }
+        rectangle += '┘\n';
+    }
+
+    return rectangle;
 }
 
 
@@ -222,7 +246,15 @@ function getRectangleString(width, height) {
  *
  */
 function encodeToRot13(str) {
-    throw new Error('Not implemented');
+    return str.replace(/[a-zA-Z]/g, function(chr) {
+        let start = 65;
+        
+        if (chr > 'Z') {
+            start = 97;
+        }
+        
+        return String.fromCharCode(start + (chr.charCodeAt(0) - start + 13) % 26);
+    });
 }
 
 /**
@@ -239,7 +271,10 @@ function encodeToRot13(str) {
  *   isString(new String('test')) => true
  */
 function isString(value) {
-    throw new Error('Not implemented');
+    type = false;
+    if ()
+    
+    return typeof();
 }
 
 
