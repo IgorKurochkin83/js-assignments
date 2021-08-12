@@ -85,11 +85,15 @@ function isLeapYear(date) {
 function timeSpanToString(startDate, endDate) {
    let outputStr = 'HH:mm:ss.sss';
 
-   let time = startDate.getTime() - endDate.getTime();
+   let time = endDate.getTime() - startDate.getTime();
 
-   outputStr = outputStr.replace('sss', String(time % 1000).padStart(3, '0')).replace('ss', String(Math.trunc((time % 100000) / 1000)).padStart(2, '0'));
+   outputStr = outputStr.replace('sss', String(time % 1000).padStart(3, '0'));
    
-   time = Math.trunc(time / 100000);
+   time = Math.trunc(time / 1000);
+   
+   outputStr = outputStr.replace('ss', String(time % 60).padStart(2, '0'));
+   
+   time = Math.trunc(time / 60);
 
    outputStr = outputStr.replace('mm', String(time % 60).padStart(2, '0'));
 
@@ -115,10 +119,10 @@ function timeSpanToString(startDate, endDate) {
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
 function angleBetweenClockHands(date) {
-   let angle;
+   let angleHour     = 0.5 * (60 * (date.getUTCHours() >= 12 ? date.getUTCHours() - 12 : date.getUTCHours()) + date.getMinutes());
+   let angleMinute   = 6 * date.getMinutes();
+   let angle         = (Math.PI / 180) * Math.abs( angleHour - angleMinute);
    
-   angle = (Math.PI / 180) * Math.abs(0.5 * (60 * date.getHours() + date.getMinutes()) - 6 * date.getMinutes());
-
    return angle <= Math.PI ? angle : (2 * Math.PI - angle);
 }
 

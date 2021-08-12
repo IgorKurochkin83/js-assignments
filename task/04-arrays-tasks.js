@@ -23,7 +23,7 @@
  *    [0, 1, 2, 3, 4, 5], 5    => 5
  */
 function findElement(arr, value) {
-   arr.indexOf(value);
+   return arr.indexOf(value);
 }
 
 /**
@@ -503,7 +503,7 @@ function distinct(arr) {
    let valueSet = new Set();
    
    return arr.filter(function (item) {
-      let isUnique = valueSet.has(item);
+      let isUnique = !valueSet.has(item);
       valueSet.add(item);
       return isUnique;
    });
@@ -541,6 +541,7 @@ function distinct(arr) {
  */
 function group(array, keySelector, valueSelector) {
    let cityByCountry = new Map();
+   
    array.forEach((item) => {
       cityByCountry.has(keySelector(item)) ? cityByCountry.get(keySelector(item)).push(valueSelector(item)) : cityByCountry.set(keySelector(item), [valueSelector(item)])
    });

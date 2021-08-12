@@ -55,8 +55,7 @@ function getStringLength(value) {
  *   'Chuck','Norris'  => 'Hello, Chuck Norris!'
  */
 function getStringFromTemplate(firstName, lastName) {
-    templateString = 'Hello, firstName lastName!';
-    return templateString.replace('firstName', firstName).replace('lastName', lastName);
+    return `Hello, ${firstName} ${lastName}!`;
 }
 
 /**
@@ -70,7 +69,7 @@ function getStringFromTemplate(firstName, lastName) {
  *   'Hello, Chuck Norris!' => 'Chuck Norris'
  */
 function extractNameFromTemplate(value) {
-    return value.substr(indexOf(' ') + 1, indexOf('!'));
+    return value.substring(value.indexOf(' ') + 1, value.indexOf('!'));
 }
 
 
@@ -204,24 +203,24 @@ function extractEmails(str) {
 function getRectangleString(width, height) {
     let rectangle = '';
     
-    if (width > 0 && height > 0) {
+    if (width > 1 && height > 1) {
         rectangle = '┌';
         for (let i = 1; i < (width - 1); i++) {
-            rectangle += '-';
+            rectangle += '─';
         }
         rectangle += '┐\n';
 
         for (let i = 1; i < height - 1; i++) {
             rectangle += '│';
             for (let i = 1; i < (width - 1); i++) {
-                rectangle += '-';
+                rectangle += ' ';
             }
             rectangle += '│\n';
         }
         
-        rectangle = '└';
+        rectangle += '└';
         for (let i = 1; i < (width - 1); i++) {
-            rectangle += '-';
+            rectangle += '─';
         }
         rectangle += '┘\n';
     }
@@ -271,7 +270,7 @@ function encodeToRot13(str) {
  *   isString(new String('test')) => true
  */
 function isString(value) {
-    type = false;
+    let type = false;
     if (typeof value === "string") {
         type = true;
     } else if (typeof value === "object" && value instanceof String) {
