@@ -38,13 +38,8 @@ function findElement(arr, value) {
  *    5 => [ 1, 3, 5, 7, 9 ]
  */
 function generateOdds(len) {
-   let arr = [];
 
-   for (let i = 0; i < len; i++) {
-      arr.push(2 * i + 1);
-   }
-
-   return arr;
+   return new Array(len).fill(0).map((item, index) => item = 2 * index + 1);
 }
 
 
@@ -540,13 +535,26 @@ function distinct(arr) {
  *   }
  */
 function group(array, keySelector, valueSelector) {
+   
    let cityByCountry = new Map();
    
-   array.forEach((item) => {
-      cityByCountry.has(keySelector(item)) ? cityByCountry.get(keySelector(item)).push(valueSelector(item)) : cityByCountry.set(keySelector(item), [valueSelector(item)])
+//   array.map((item) => {
+//      cityByCountry.has(keySelector(item)) ? cityByCountry.get(keySelector(item)).push(valueSelector(item)) : cityByCountry.set(keySelector(item), [valueSelector(item)])
+//   });
+   
+   let arrSet = new Set;
+   
+   let output = array.filter(item => {
+	   let isUniqueCountry = !arrSet.has(keySelector(item));
+  	   arrSet.add(keySelector(item));
+  	   return isUniqueCountry;
    });
    
-   return cityByCountry;
+   output = output.map((item, index, arr) =>
+      [keySelector(item),  array.filter((value) => keySelector(item) == keySelector(value)).map(item  => valueSelector(item))]
+   );
+
+   return new Map(output);
 }
 
 
@@ -579,7 +587,7 @@ function selectMany(arr, childrenSelector) {
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
 function getElementByIndexes(arr, indexes) {
-   indexes.forEach(item => arr = arr[item]);
+   indexes.map(item => {arr = arr[item]});
    return arr;
 }
 
