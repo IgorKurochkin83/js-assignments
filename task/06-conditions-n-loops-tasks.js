@@ -186,7 +186,7 @@ function doRectanglesOverlap(rect1, rect2) {
  *   
  */
 function isInsideCircle(circle, point) {
-    throw new Error('Not implemented');
+    return Math.pow(circle.center.x - point.x, 2) + Math.pow(circle.center.y - point.y, 2) <= Math.pow(circle.radius, 2);
 }
 
 
@@ -202,7 +202,21 @@ function isInsideCircle(circle, point) {
  *   'entente' => null
  */
 function findFirstSingleChar(str) {
-    throw new Error('Not implemented');
+    let charByCount     = new Map();
+    let firstSingleCgar = null;
+  	
+    Array.from(str).forEach(value => {
+    	charByCount.has(value) ? charByCount.set(value, charByCount.get(value) + 1) : charByCount.set(value, 1);
+    });
+  	
+    for(let key of charByCount.keys()) {
+    	if (charByCount.get(key) === 1) {
+        	firstSingleCgar = key;
+          	break;
+        }
+    }
+  
+    return firstSingleCgar;
 }
 
 
@@ -228,7 +242,10 @@ function findFirstSingleChar(str) {
  *
  */
 function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
-    throw new Error('Not implemented');
+    let interval = [a, b].sort((a, b) => a - b).join(', ');
+    isStartIncluded ? interval = '[' + interval : interval = '(' + interval;
+    isEndIncluded ? interval = interval + ']' : interval = interval + ')';
+    return interval;
 }
 
 
@@ -245,7 +262,7 @@ function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
  * 'noon' => 'noon'
  */
 function reverseString(str) {
-    throw new Error('Not implemented');
+    return str.split('').reverse().join('');
 }
 
 
@@ -262,7 +279,7 @@ function reverseString(str) {
  *   34143 => 34143
  */
 function reverseInteger(num) {
-    throw new Error('Not implemented');
+    return Number(String(num).split('').reverse().join(''));
 }
 
 
@@ -306,7 +323,13 @@ function isCreditCardNumber(ccn) {
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
 function getDigitalRoot(num) {
-    throw new Error('Not implemented');
+    let strNumber = String(num);
+    while (strNumber.length > 1) {
+        let sum = 0;
+        Array.from(strNumber).forEach(value => sum += Number(value));
+        strNumber = String(sum);
+    } 
+    return Number(strNumber);
 }
 
 
