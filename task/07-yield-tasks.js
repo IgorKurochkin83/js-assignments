@@ -33,7 +33,25 @@
  *
  */
 function* get99BottlesOfBeer() {
-    throw new Error('Not implemented');
+    let current = 99;
+    
+    while (true) {
+        yield `${current} bottles of beer on the wall, ${current} bottles of beer.`;
+        current--;
+        
+        if (current > 1){
+            yield `Take one down and pass it around, ${current} bottles of beer on the wall.`;
+        
+        } else {
+            
+            yield 'Take one down and pass it around, 1 bottle of beer on the wall.';
+            yield '1 bottle of beer on the wall, 1 bottle of beer.';
+            yield 'Take one down and pass it around, no more bottles of beer on the wall.';
+            yield 'No more bottles of beer on the wall, no more bottles of beer.';
+            yield 'Go to the store and buy some more, 99 bottles of beer on the wall.';
+            return;
+        }
+    }
 }
 
 
@@ -47,7 +65,12 @@ function* get99BottlesOfBeer() {
  *
  */
 function* getFibonacciSequence() {
-    throw new Error('Not implemented');
+    let current = 0;
+    let next = 1;
+    while (true) {
+        yield current;
+        [current, next] = [next, next + current];
+    }
 }
 
 
@@ -83,6 +106,13 @@ function* getFibonacciSequence() {
  */
 function* depthTraversalTree(root) {
     throw new Error('Not implemented');
+    yield root;
+    if (Array.isArray(root.children)) {
+        for (let child of root.children)
+            yield* depthTraversalTree(child);
+    }
+    
+
 }
 
 
@@ -109,6 +139,15 @@ function* depthTraversalTree(root) {
  */
 function* breadthTraversalTree(root) {
     throw new Error('Not implemented');
+    let stack = [root];
+    while (stack.length > 0) {
+        let node = stack.shift();
+        yield node;
+        if (Array.isArray(node.children)) {
+            for (let children of node.children) 
+                stack.push(children);
+        }    
+    }
 }
 
 
@@ -126,7 +165,9 @@ function* breadthTraversalTree(root) {
  *   [ 1, 3, 5, ... ], [ -1 ] => [ -1, 1, 3, 5, ...]
  */
 function* mergeSortedSequences(source1, source2) {
-    throw new Error('Not implemented');
+    let a = source1;
+    let b = source2;
+    yield a >= b ? a : b;
 }
 
 

@@ -186,7 +186,7 @@ function doRectanglesOverlap(rect1, rect2) {
  *   
  */
 function isInsideCircle(circle, point) {
-    return Math.pow(circle.center.x - point.x, 2) + Math.pow(circle.center.y - point.y, 2) <= Math.pow(circle.radius, 2);
+    return Math.pow(circle.center.x - point.x, 2) + Math.pow(circle.center.y - point.y, 2) < Math.pow(circle.radius, 2);
 }
 
 
@@ -304,7 +304,23 @@ function reverseInteger(num) {
  *   4916123456789012 => false
  */
 function isCreditCardNumber(ccn) {
-    throw new Error('Not implemented');
+    let cnnString   = String(ccn);
+    let nCheck      = 0;
+    let bEven       = false;
+
+
+    for (let n = cnnString.length - 1; n >= 0; n--) {
+        let nDigit = Number(cnnString[n]);
+
+        if (bEven && (nDigit *= 2) > 9) {
+            nDigit -= 9;
+        }
+
+        nCheck += nDigit;
+        bEven = !bEven;
+    }
+
+    return (nCheck % 10) === 0;
 }
 
 
@@ -355,7 +371,35 @@ function getDigitalRoot(num) {
  *   '{[(<{[]}>)]}' = true 
  */
 function isBracketsBalanced(str) {
-    throw new Error('Not implemented');
+    let Balanced = true;
+    let brackets = '[](){}<>';
+    let listbrackets = [];
+    
+    for (let char of str) {
+       let indexBraket = brackets.indexOf(char);
+
+      if ( indexBraket % 2 == 0 ) {
+        listbrackets.push(char);
+      }
+
+      if (indexBraket % 2 == 1) {
+        if ( listbrackets.length == 0 ) {
+          Balanced = false;
+          break;
+        }
+
+        if ( listbrackets.pop() != brackets[indexBraket-1] ) {
+          Balanced = false;
+          break;
+        }
+      }
+    }
+
+    if (!listbrackets.length == 0) {
+      Balanced = false;
+    }
+    
+    return Balanced;;
 }
 
 
@@ -391,7 +435,72 @@ function isBracketsBalanced(str) {
  *
  */
 function timespanToHumanString(startDate, endDate) {
+    let timePeriod      = 'a few seconds ago';
+    let timeDifference  = endDate - startDate;
+    let timeCondition   = 45;
+    timeDifference      = timeDifference / 1000;
+
+//  45 to 90 seconds  
+    if (timeDifference > timeCondition) {
+        timePeriod = 'a minute ago';
+    }
+
+//  90 seconds to 45 minutes    
+    timeCondition =  90;
+    if (timeDifference > timeCondition) {
+        timePeriod = `${Math.round((timeDifference % (60 * 60)) / 60)} minutes ago`;
+    }
+
+//  45 to 90 minutes    
+    timeCondition =  45 * 60;
+    if (timeDifference > timeCondition) {
+        timePeriod = `an hour ago`;
+    }
+
+//  90 minutes to 22 hours  
+    timeCondition = 45 * 60;
+    if (timeDifference > timeCondition) {
+        timePeriod = `${Math.round((timeDifference % (60 * 60 * 24)) / (60 * 60))} hours ago`;
+    }
+
+//  22 to 36 hours  
+    timeCondition = 22 * 3600;
+    if (timeDifference > timeCondition) {
+        timePeriod = `a day ago`;
+    }
+
+//  36 hours to 25 days  
+    timeCondition = 36 * 3600;
+    if (timeDifference > timeCondition) {
+        timePeriod = `${Math.round(timeDifference / (3600 * 24))} days ago`;
+    }
+    
+//  25 to 45 days  
+    timeCondition = 25 * 24 * 3600;
+    if (timeDifference > timeCondition) {
+        timePeriod = `a month ago`;
+    }
+
+ // 45 to 345 days
+    timeCondition = 45 * 24 * 60 * 60;
+    if (timeDifference > timeCondition) {
+        timePeriod = Math.round(timeDifference / (3600 * 24 * 30)) + ' months ago';
+    }
+
+// 345 to 545 days (1.5 years)
+    timeCondition = 345 * 24 * 60 * 60;
+    if (timeDifference >= timeCondition) {
+        timePeriod = 'a year ago';
+    }
+
+//  546 days+ 
+    timeCondition = 546 * 24 * 60 * 60;
+    if (timeDifference >= timeCondition) {
+        timePeriod = Math.round(timeDifference / (3600 * 24 * 360)) + ' years ago';
+    }
+
     throw new Error('Not implemented');
+    return timePeriod;
 }
 
 
@@ -415,7 +524,7 @@ function timespanToHumanString(startDate, endDate) {
  *    365, 10 => '365'
  */
 function toNaryString(num, n) {
-    throw new Error('Not implemented');
+    return num.toString(n);
 }
 
 
@@ -432,7 +541,18 @@ function toNaryString(num, n) {
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
 function getCommonDirectoryPath(pathes) {
-    throw new Error('Not implemented');
+    return pathes.reduce((prev, value) => {
+        let indexEnd = 0;
+        for (let i = 0; i < Math.min(prev.length, value.length); i++) {
+            if (prev[i] == value[i]){
+                indexEnd = i;
+            } else {
+                break;
+            }
+        } 
+
+        return prev = value.substring(0,  value.lastIndexOf('/', indexEnd) +1);
+    }, pathes[0]); 
 }
 
 
@@ -455,7 +575,28 @@ function getCommonDirectoryPath(pathes) {
  *
  */
 function getMatrixProduct(m1, m2) {
-    throw new Error('Not implemented');
+    let rowsA = m1.length, 
+        colsA = m1[0].length,
+        rowsB = m2.length, 
+        colsB = m2[0].length;
+    
+    let product = [];
+
+    if (colsA != rowsB) return false;
+
+    for (let i = 0; i < rowsA; i++) product[i] = [];
+
+    for (let k = 0; k < colsB; k++) {
+        for (let i = 0; i < rowsA; i++) {
+            let temp = 0;
+            
+            for (let j = 0; j < rowsB; j++) temp += m1[i][j]*m2[j][k];
+            
+            product[i][k] = temp;
+        }
+    }
+
+    return product;
 }
 
 
@@ -490,7 +631,43 @@ function getMatrixProduct(m1, m2) {
  *
  */
 function evaluateTicTacToePosition(position) {
-    throw new Error('Not implemented');
+    let winner;
+    let diagX = 0, diag0 = 0, unDiagX = 0, unDiag0 = 0;
+        
+    for(let i = 0; i < 3; i++) {
+        let rowX    = 0; 
+        let row0    = 0;
+        let columnX = 0;
+        let column0 = 0
+        
+        if (position[i][i] == 'X') diagX++;
+        if (position[i][i] === '0') diag0++;
+        if (position[i][2 - i] == 'X') unDiagX++;
+        if (position[i][2 - i] === '0') unDiag0++;
+
+        for(let j = 0; j < 3; j++) {
+            if (position[i][j] === 'X') rowX++;
+            if (position[i][j] === '0') row0++;
+            if (position[j][i] === 'X') columnX++;
+            if (position[j][i] === '0') column0++;
+        }
+        
+        if (rowX == 3 || columnX == 3) {
+            winner = 'X';
+            break;
+        }
+
+        if (row0 == 3 || column0 == 3) {
+            winner = '0';
+            break;
+        }
+    }
+
+    if (diagX == 3 || unDiagX == 3) winner = 'X';
+    
+    if (diag0 == 3 || unDiag0 == 3) winner = '0';
+
+    return winner;
 }
 
 
