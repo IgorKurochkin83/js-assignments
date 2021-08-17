@@ -166,9 +166,24 @@ function* breadthTraversalTree(root) {
  *   [ 1, 3, 5, ... ], [ -1 ] => [ -1, 1, 3, 5, ...]
  */
 function* mergeSortedSequences(source1, source2) {
-    let a = source1;
-    let b = source2;
-    yield a >= b ? a : b;
+    let a   = source1();
+    let b   = source2();
+    let next;
+    
+    a.result = a.next();
+    b.result = b.next();
+    let iterators = [a, b];
+    
+    function findNext() {
+        return iterators
+            .filter(iterator => !iterator.result.done)
+            .reduce((prev, current) => !prev || current.result.value < prev.result.value ? current : prev, null);
+    }
+    
+    while (next = findNext()) {
+        yield next.result.value;
+        next.result = next.next();
+    }
 }
 
 

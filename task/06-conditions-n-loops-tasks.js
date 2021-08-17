@@ -435,72 +435,39 @@ function isBracketsBalanced(str) {
  *
  */
 function timespanToHumanString(startDate, endDate) {
-    let timePeriod      = 'a few seconds ago';
-    let timeDifference  = endDate - startDate;
-    let timeCondition   = 45;
-    timeDifference      = timeDifference / 1000;
+    let diff = endDate - startDate;
+    let result;
 
-//  45 to 90 seconds  
-    if (timeDifference > timeCondition) {
-        timePeriod = 'a minute ago';
+    function round(n) {
+        if (n * 10 % 10 > 5) { return Math.ceil(n); }
+        return Math.floor(n);
     }
 
-//  90 seconds to 45 minutes    
-    timeCondition =  90;
-    if (timeDifference > timeCondition) {
-        timePeriod = `${Math.round((timeDifference % (60 * 60)) / 60)} minutes ago`;
-    }
-
-//  45 to 90 minutes    
-    timeCondition =  45 * 60;
-    if (timeDifference > timeCondition) {
-        timePeriod = `an hour ago`;
-    }
-
-//  90 minutes to 22 hours  
-    timeCondition = 45 * 60;
-    if (timeDifference > timeCondition) {
-        timePeriod = `${Math.round((timeDifference % (60 * 60 * 24)) / (60 * 60))} hours ago`;
-    }
-
-//  22 to 36 hours  
-    timeCondition = 22 * 3600;
-    if (timeDifference > timeCondition) {
-        timePeriod = `a day ago`;
-    }
-
-//  36 hours to 25 days  
-    timeCondition = 36 * 3600;
-    if (timeDifference > timeCondition) {
-        timePeriod = `${Math.round(timeDifference / (3600 * 24))} days ago`;
+    if (diff <= 45 * 1000) {
+        result = 'a few seconds ago';
+    } else if (diff <= 90 * 1000) {
+        result = 'a minute ago';
+    } else if (diff <= 45 * 60 * 1000) {
+        result = round(diff / (60 * 1000)) + ' minutes ago';
+    } else if (diff <= 90 * 60 * 1000) {
+        result = 'an hour ago';
+    } else if (diff <= 22 * 60 * 60 * 1000) {
+        result = round(diff / (60 * 60 * 1000)) + ' hours ago';
+    } else if (diff <= 36 * 60 * 60 * 1000) {
+        result = 'a day ago';
+    } else if (diff <= 25 * 24 * 60 * 60 * 1000) {
+        result = round(diff / (24 * 60 * 60 * 1000)) + ' days ago';
+    } else if (diff <= 45 * 24 * 60 * 60 * 1000) {
+        result = 'a month ago';
+    } else if (diff <= 345 * 24 * 60 * 60 * 1000) {
+        result = round(diff / (30 * 24 * 60 * 60 * 1000)) + ' months ago';
+    } else if (diff <= 545 * 24 * 60 * 60 * 1000) {
+        result = 'a year ago';
+    } else {
+        result = round(diff / (365 * 24 * 60 * 60 * 1000)) + ' years ago';
     }
     
-//  25 to 45 days  
-    timeCondition = 25 * 24 * 3600;
-    if (timeDifference > timeCondition) {
-        timePeriod = `a month ago`;
-    }
-
- // 45 to 345 days
-    timeCondition = 45 * 24 * 60 * 60;
-    if (timeDifference > timeCondition) {
-        timePeriod = Math.round(timeDifference / (3600 * 24 * 30)) + ' months ago';
-    }
-
-// 345 to 545 days (1.5 years)
-    timeCondition = 345 * 24 * 60 * 60;
-    if (timeDifference >= timeCondition) {
-        timePeriod = 'a year ago';
-    }
-
-//  546 days+ 
-    timeCondition = 546 * 24 * 60 * 60;
-    if (timeDifference >= timeCondition) {
-        timePeriod = Math.round(timeDifference / (3600 * 24 * 360)) + ' years ago';
-    }
-
-    throw new Error('Not implemented');
-    return timePeriod;
+    return result;
 }
 
 
